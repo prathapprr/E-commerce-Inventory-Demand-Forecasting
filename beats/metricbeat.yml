@@ -1,0 +1,27 @@
+output.elasticsearch:
+  hosts: ["${ELASTICSEARCH_HOSTS:elasticsearch:9200}"]
+
+setup.template.enabled: true
+setup.template.overwrite: true
+
+fields:
+  project: ecommerce-inventory-forecasting
+fields_under_root: true
+
+processors:
+  - add_host_metadata: {}
+  - add_cloud_metadata: {}
+  - add_docker_metadata: {}
+
+metricbeat.modules:
+  - module: prometheus
+    period: 5s
+    hosts: ["http://prometheus:9090"]
+    metrics_path: /federate
+    query:
+      'match[]':
+        - '{__name__=~"inventory_level_units|orders_per_minute|predicted_stockout_hours|demand_forecast_units|orders_total|reorder_events_total|processing_latency_seconds.*"}'
+
+strict.perms: false
+
+

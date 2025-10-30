@@ -1,0 +1,91 @@
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+    container_name: es01
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    ports:
+      - "9200:9200"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.15.3
+    container_name: kibana
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    depends_on:
+      - app
+
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:8.15.3
+    container_name: metricbeat
+    user: root
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      prometheus:
+        condition: service_started
+    volumes:
+      - ./beats/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro
+      - metricbeat-data:/usr/share/metricbeat/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    command: ["-strict.perms=false"]
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.15.3
+    container_name: filebeat
+    user: root
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      app:
+        condition: service_started
+    volumes:
+      - ./beats/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - filebeat-data:/usr/share/filebeat/data
+      - app-logs:/var/log/app:ro
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    command: ["-strict.perms=false"]
+
+  app:
+    build: ./app
+    container_name: data-app
+    environment:
+      - LOG_DIR=/var/log/app
+      - METRICS_PORT=8000
+    volumes:
+      - app-logs:/var/log/app
+    ports:
+      - "8000:8000"
+
+volumes:
+  esdata:
+  app-logs:
+  filebeat-data:
+  metricbeat-data:
+
+

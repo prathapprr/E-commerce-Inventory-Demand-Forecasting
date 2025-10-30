@@ -1,0 +1,29 @@
+filebeat.inputs:
+  - type: filestream
+    id: app-logs
+    enabled: true
+    paths:
+      - /var/log/app/events.jsonl
+    parsers:
+      - ndjson:
+          add_error_key: true
+    data_stream:
+      type: logs
+      dataset: app
+      namespace: default
+    fields:
+      datasource: app
+    fields_under_root: true
+
+strict.perms: false
+
+output.elasticsearch:
+  hosts: ["${ELASTICSEARCH_HOSTS:elasticsearch:9200}"]
+
+setup.template.enabled: true
+setup.template.overwrite: true
+
+processors:
+  - add_host_metadata: {}
+  - add_cloud_metadata: {}
+  - add_docker_metadata: {}
