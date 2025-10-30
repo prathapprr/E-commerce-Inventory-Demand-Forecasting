@@ -1,4 +1,4 @@
-# 📦 E-commerce Inventory & Demand Forecasting
+# E-commerce Inventory & Demand Forecasting
 
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-7.17-blue?logo=elasticsearch) ![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-orange?logo=prometheus) ![Kibana](https://img.shields.io/badge/Kibana-Dashboards-005571?logo=kibana) ![Docker](https://img.shields.io/badge/Docker-Compose-blue?logo=docker)
 
@@ -6,13 +6,13 @@ A **demo-ready, open-source observability project** for real-time inventory moni
 localhost
 ---
 
-## 🚀 Overview
+## Overview
 
 Monitor, analyze, and act on e-commerce inventory signals from three warehouses and five products—all in real time—using modern observability stacks. Visualize data in interactive dashboards, forecast demand with linear regression, and get actionable reorder alerts automatically.
 
 ---
 
-## 🧩 Technologies Used
+## Technologies Used
 - **Prometheus** – Scrapes real-time inventory, order, and forecast metrics from a Python backend
 - **Elasticsearch** – Indexes logs & metrics for search and analytics
 - **Kibana** – Data discovery, dashboards, and visualization
@@ -21,17 +21,17 @@ Monitor, analyze, and act on e-commerce inventory signals from three warehouses 
 
 ---
 
-## ✨ Features
-- 🟢 **Live Inventory Tracking:** Product/warehouse breakdown
-- 📈 **Order & Demand Analytics:** View order rates and predictions
-- 🔮 **Forecast & ML:** Linear regression for demand & stockout time
-- 🛎️ **Reorder Alerts:** Automated alerting for low/critical stock
-- 🖥️ **Plug-and-Play Visualizations:** Kibana dashboards and Prometheus charts
-- 🔄 **Fully Scripted Demo:** Quick start for learning or demonstration
+## Features
+- **Live Inventory Tracking:** Product/warehouse breakdown
+- **Order & Demand Analytics:** View order rates and predictions
+- **Forecast & ML:** Linear regression for demand & stockout time
+- **Reorder Alerts:** Automated alerting for low/critical stock
+- **Plug-and-Play Visualizations:** Kibana dashboards and Prometheus charts
+- **Fully Scripted Demo:** Quick start for learning or demonstration
 
 ---
 
-## 🏗️ Project Architecture
+## Project Architecture
 ```text
 ┌─────────────┐  Python app exposes /metrics  ┌──────────────┐  Kibana dashboards
 │   App       │▸ Prometheus scrapes metrics ▸│ Elasticsearch│◂◃▹▸ Data Viz
@@ -43,7 +43,7 @@ Monitor, analyze, and act on e-commerce inventory signals from three warehouses 
 
 ---
 
-## 📊 Example Metrics
+## Example Metrics
 - `inventory_level_units{product_id, warehouse_id}` – Live inventory
 - `orders_per_minute{product_id}` – Order rate
 - `predicted_stockout_hours{product_id, warehouse_id}` – ML: time to stockout
@@ -52,7 +52,7 @@ Monitor, analyze, and act on e-commerce inventory signals from three warehouses 
 
 ---
 
-## ⚡ Quick Start
+## Quick Start
 
 ### 1. Prerequisites
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
@@ -78,7 +78,7 @@ Stack will launch:
 
 ---
 
-## 🏷️ Data Model (Event Types)
+## Data Model (Event Types)
 - **order:**  product_id, warehouse_id, quantity, remaining_inventory
 - **inventory:** periodic stock status, demand, prediction fields
 - **reorder_alert:** generated on forecasted shortage
@@ -86,7 +86,7 @@ Stack will launch:
 
 ---
 
-## 🖼️ Dashboards & Visualizations
+## Dashboards & Visualizations
 Build the following in Kibana:
 - **Inventory by Warehouse**: Line chart of units per site over time
 - **Order Rates by Product**: Time-chart by product
@@ -96,7 +96,7 @@ Build the following in Kibana:
 
 ---
 
-## 📚 Learning Outcomes
+## Learning Outcomes
 - Observability for business metrics (not just infrastructure)
 - Real-world data flows: From API ⟶ metrics & logs ⟶ dashboards
 - Deploying & integrating Prometheus + ELK
@@ -105,7 +105,7 @@ Build the following in Kibana:
 
 ---
 
-## 🛠️ Troubleshooting / Tips
+## Troubleshooting / Tips
 - Log in to services (`docker ps`, `docker logs <container>`) for troubleshooting
 - Check Elasticsearch indices: Kibana > Dev Tools > `GET _cat/indices?v`
 - Restart all with:      `docker compose restart`
@@ -113,4 +113,4 @@ Build the following in Kibana:
 
 ---
 
-**Happy Observing! 📈🛍️**
+**Happy Observing!**
