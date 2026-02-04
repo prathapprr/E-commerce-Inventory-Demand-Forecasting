@@ -32,14 +32,17 @@ Monitor, analyze, and act on e-commerce inventory signals from three warehouses 
 ---
 
 ## Project Architecture
-```text
-┌─────────────┐  Python app exposes /metrics  ┌──────────────┐  Kibana dashboards
-│   App       │▸ Prometheus scrapes metrics ▸│ Elasticsearch│◂◃▹▸ Data Viz
-│  (Python)   │▸ Filebeat/Metricbeat ▸ ELK   └──────────────┘
-└──────┬──────┘                                 ▲
-       │        Docker Compose                  │
-       └────────────── Stack ───────────────────┘
-```
+
+![Architecture Diagram](.github/images/architecture.png)
+
+### Data Flow Summary
+
+| Source | Destination | Data Type |
+|--------|-------------|-----------|
+| App `/metrics` | Prometheus | Gauges, Counters, Histograms |
+| App `events.jsonl` | Filebeat → Elasticsearch | Order, Inventory, Alert logs |
+| Prometheus | Metricbeat → Elasticsearch | Federated metrics |
+| Elasticsearch | Kibana | Dashboards & Visualizations |
 
 ---
 
@@ -68,7 +71,7 @@ docker compose up -d --build
 Stack will launch:
 - **Elasticsearch**: http://localhost:9200
 - **Kibana Dashboard**: http://localhost:5601
-- **Prometheus UI**: http://:9090
+- **Prometheus UI**: http://localhost:9090
 - **App (API & metrics)**: http://localhost:8000
 
 ### 3. Verify
