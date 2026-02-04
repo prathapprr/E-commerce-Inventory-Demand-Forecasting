@@ -1,0 +1,43 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+README*
+LICENSE
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Test files
+tests/
+test_*.py
+*_test.py
+.pytest_cache/
+.coverage
+
+# Docker
+Dockerfile
+docker-compose*
+.docker
+
+# Logs
+*.log
+logs/
